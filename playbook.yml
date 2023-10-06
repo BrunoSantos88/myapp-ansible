@@ -12,10 +12,6 @@
     service:
       name: nginx
       state: started
-  - name: Copiando index.html personalizado
-    template:
-      src: index.html
-      dest: /var/www/html/index.html
   - name: Restartando o Nginx
     service:
       name: nginx
