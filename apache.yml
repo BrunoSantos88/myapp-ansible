@@ -1,5 +1,5 @@
 ---
-- hosts: webservers 
+- hosts: cluster
   become: True
   tasks:
     - name: Install packages
