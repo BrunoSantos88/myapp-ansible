@@ -3,16 +3,15 @@
   become: yes
   remote_user: master
   tasks:
-  - name: Instalando o nginx
+  - name: Task - 1 Update APT package manager repositories cache
+    become: true
     apt:
-      name: nginx
-      state: latest
-      update_cache: yes
-  - name: Iniciando o nginx
-    service:
-      name: nginx
-      state: started
-  - name: Restartando o Nginx
-    service:
-      name: nginx
-      state: restarted
+    update_cache: yes
+    - name: Task -2 Install Java using Ansible
+      become: yes
+      apt:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+           - openjdk-11-jdk
