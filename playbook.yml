@@ -3,15 +3,24 @@
   become: yes
   remote_user: master
   tasks:
-   - name: Task - 1 Update APT package manager repositories cache
-     become: true
+   - name: Instalando o Docker
+     shell: curl -fsSL https://get.docker.com | bash
+
+   - name: Adicionando as chaves do repo apt do k8s
+     apt_key:
+     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+     state: present
+
+   - name: Adicionando o repo do k8s
+     apt_repository:
+     repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+     state: present
+
+   - name: Instalando os pacotes kubeadm, kubelet e kubectl
      apt:
-     update_cache: yes
-       - name: Task -2 Install Java using Ansible
-         become: yes
-         apt:
-         name: "{{ packages }}"
-         state: present
-         vars:
-         packages:
-           - openjdk-11-jdk
+     name: "{{ packages }}"
+     vars:
+     packages:
+      - kubelet
+      - kubeadm
+      - kubectl
